@@ -2,10 +2,14 @@ package com.haiss.shoppingcart.services.Impl;
 
 import com.haiss.shoppingcart.DTO.UserDTO;
 import com.haiss.shoppingcart.entity.User;
+import com.haiss.shoppingcart.exceptions.DuplicateException;
+import com.haiss.shoppingcart.exceptions.NotFoundException;
 import com.haiss.shoppingcart.repository.UserRepository;
 import com.haiss.shoppingcart.services.UserService;
+import org.springframework.stereotype.Service;
 
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepo;
@@ -16,15 +20,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(UserDTO user) {
+        Boolean isExist = userRepo.existsByName(user.getName());
+        if (isExist) throw new DuplicateException("user exists with same name");
         User newUser = new User();
         newUser.setName(user.getName());
-        User createdUser = userRepo.save(newUser);
-        System.out.println("createdUser is " +createdUser);
-        return createdUser;
+        return userRepo.save(newUser);
     }
 
     @Override
-    public User getUserById(Long id) throws Exception {
-        return userRepo.getReferenceById(id);
+    public User getUserById(Long id) {
+        return userRepo.findById(id).orElseThrow(() -> new NotFoundException("haiss"));
     }
 }
