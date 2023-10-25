@@ -1,8 +1,8 @@
 package com.haiss.shoppingcart.controllers;
 
 
-import com.haiss.shoppingcart.DTO.UserDTO;
-import com.haiss.shoppingcart.entity.User;
+import com.haiss.shoppingcart.domain.DTO.UserDTO;
+import com.haiss.shoppingcart.domain.entity.User;
 import com.haiss.shoppingcart.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;

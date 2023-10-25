@@ -1,4 +1,4 @@
-package com.haiss.shoppingcart.entity;
+package com.haiss.shoppingcart.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @Column(name = "total_price")
-    private Double totalPrice;
+    @Column(name = "total_price",precision = 10,scale = 2)
+    private BigDecimal totalPrice;
 
     @Column(name = "created_at")
     @CreationTimestamp

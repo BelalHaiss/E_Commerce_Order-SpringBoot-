@@ -1,4 +1,4 @@
-package com.haiss.shoppingcart.DTO;
+package com.haiss.shoppingcart.domain.DTO;
 
 
 import jakarta.validation.constraints.Min;

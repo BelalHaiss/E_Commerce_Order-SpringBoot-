@@ -1,7 +1,7 @@
 package com.haiss.shoppingcart.services.Impl;
 
-import com.haiss.shoppingcart.DTO.UserDTO;
-import com.haiss.shoppingcart.entity.User;
+import com.haiss.shoppingcart.domain.DTO.UserDTO;
+import com.haiss.shoppingcart.domain.entity.User;
 import com.haiss.shoppingcart.exceptions.DuplicateException;
 import com.haiss.shoppingcart.exceptions.NotFoundException;
 import com.haiss.shoppingcart.repository.UserRepository;
@@ -20,6 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(UserDTO user) {
+
         Boolean isExist = userRepo.existsByName(user.getName());
         if (isExist) throw new DuplicateException("user exists with same name");
         User newUser = new User();

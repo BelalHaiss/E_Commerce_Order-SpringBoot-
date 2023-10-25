@@ -22,7 +22,9 @@ public class ApiExceptionHandler {
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class, DataIntegrityViolationException.class})
+
     public ResponseEntity<ErrorObject> handleValidatioNError(Exception ex) {
+        System.out.println("Validation Failed" + ex);
         ErrorObject errorBody = new ErrorObject("Validation Failed", HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(errorBody, errorBody.status());

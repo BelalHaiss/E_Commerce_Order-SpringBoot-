@@ -1,4 +1,4 @@
-package com.haiss.shoppingcart.entity;
+package com.haiss.shoppingcart.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

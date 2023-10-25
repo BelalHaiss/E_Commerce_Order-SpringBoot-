@@ -1,4 +1,4 @@
-package com.haiss.shoppingcart.entity;
+package com.haiss.shoppingcart.domain.entity;
 
 
 import jakarta.persistence.*;
@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -22,8 +22,8 @@ public class OrderProduct {
     @Column(name="order_product_id")
     private  long id;
 
-    @Column(name = "price", nullable = false)
-    private Double price;
+    @Column(name = "price", nullable = false,precision = 10,scale = 2)
+    private BigDecimal price;
 
     @Column(name = "qty", nullable = false)
     private Integer qty;
