@@ -1,10 +1,8 @@
 package com.haiss.shoppingcart.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "product")
+@ToString
 public class Product {
 
     @Id
@@ -35,6 +34,7 @@ public class Product {
     @Column(name = "qty", nullable = false)
     private Integer qty ;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<OrderProduct> orderProducts;
 }

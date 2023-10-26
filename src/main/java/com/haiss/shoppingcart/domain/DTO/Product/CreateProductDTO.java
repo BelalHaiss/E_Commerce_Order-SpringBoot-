@@ -2,6 +2,7 @@ package com.haiss.shoppingcart.domain.DTO.Product;
 
 import com.haiss.shoppingcart.domain.Interfaces.IProduct;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -24,6 +25,7 @@ public class CreateProductDTO implements IProduct {
     @NotNull
     private BigDecimal price;
 
+    @Min(0)
     private Integer qty=0;
 
 }
