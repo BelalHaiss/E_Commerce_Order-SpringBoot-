@@ -46,6 +46,11 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    public Address getAddressById(Long id) {
+        return addressRepo.findById(id).orElseThrow(() -> new NotFoundException("Address not found"));
+    }
+
+    @Override
     public List<UserAddressesResponse> getUserAddress(Long id) {
         List<Address> addresses = addressRepo.findByUserId(id);
         return mapper.mapToUserAddresses(addresses);

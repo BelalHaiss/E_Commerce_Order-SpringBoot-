@@ -1,4 +1,4 @@
-package com.haiss.shoppingcart.domain.enums;
+package com.haiss.shoppingcart.domain.validators;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -24,6 +24,7 @@ public class EnumValidatorConstraint implements ConstraintValidator<EnumValidato
         if (value == null) {
             return true;
         }
+
         return acceptedValues.contains(value);
     }
 

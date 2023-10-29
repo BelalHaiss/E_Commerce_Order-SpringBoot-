@@ -3,10 +3,12 @@ package com.haiss.shoppingcart.controllers;
 
 import com.haiss.shoppingcart.domain.DTO.PaginationResponse;
 import com.haiss.shoppingcart.domain.DTO.Product.CreateProductDTO;
+import com.haiss.shoppingcart.domain.DTO.Product.ProductResponse;
 import com.haiss.shoppingcart.domain.DTO.Product.UpdateProductDTO;
-import com.haiss.shoppingcart.domain.entity.Product;
 import com.haiss.shoppingcart.services.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,8 +23,9 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product createProduct(@Valid @RequestBody CreateProductDTO productDTO) {
-        return productService.createProduct(productDTO);
+    public ResponseEntity<Void> createProduct(@Valid @RequestBody CreateProductDTO productDTO) {
+        productService.createProduct(productDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PatchMapping("/{id}")
@@ -32,19 +35,19 @@ public class ProductController {
     }
 
     @GetMapping
-    public PaginationResponse<Product> getProducts(
+    public PaginationResponse<ProductResponse> getProducts(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSiz", defaultValue = "10", required = false) int pageSiz) {
         return productService.findProductsWithPagination(pageNo, pageSiz);
     }
 
     @GetMapping("/{id}")
-    public Product getProduct(@PathVariable("id") Long id) {
-        return productService.findProductById(id);
+    public ProductResponse getProduct(@PathVariable("id") Long id) {
+        return productService.getProductById(id);
     }
 
     @DeleteMapping("/{id}")
-    public  void deleteProduct (@PathVariable ("id") Long id){
-         productService.removeById(id);
+    public void deleteProduct(@PathVariable("id") Long id) {
+        productService.removeById(id);
     }
 }

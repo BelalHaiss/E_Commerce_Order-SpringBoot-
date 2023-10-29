@@ -1,4 +1,4 @@
-package com.haiss.shoppingcart.domain.enums;
+package com.haiss.shoppingcart.domain.validators;
 
 
 import jakarta.validation.Constraint;

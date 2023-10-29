@@ -1,6 +1,7 @@
 package com.haiss.shoppingcart.domain.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,8 +23,8 @@ public class OrderProduct {
     @Column(name = "order_product_id")
     private long id;
 
-    @Column(name = "price", nullable = false, precision = 10, scale = 2)
-    private BigDecimal price;
+    @Column(name = "unit_price", nullable = false, precision = 10, scale = 2)
+    private BigDecimal unitPrice;
 
     @Column(name = "qty", nullable = false)
     private Integer qty;
@@ -31,12 +32,12 @@ public class OrderProduct {
 
     @ManyToOne()
     @JoinColumn(name = "order_id", insertable = false, updatable = false)
+    @JsonIgnore
     private Order order;
 
     @ManyToOne()
     @JoinColumn(name = "product_id", insertable = false, updatable = false)
     private Product product;
-
 
 }
 
