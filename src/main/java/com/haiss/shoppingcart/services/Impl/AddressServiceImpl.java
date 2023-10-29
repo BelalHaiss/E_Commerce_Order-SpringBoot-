@@ -2,6 +2,7 @@ package com.haiss.shoppingcart.services.Impl;
 
 import com.haiss.shoppingcart.domain.DTO.address.CreateAddressDTO;
 import com.haiss.shoppingcart.domain.DTO.address.UpdateAddressDTO;
+import com.haiss.shoppingcart.domain.DTO.address.UserAddressesResponse;
 import com.haiss.shoppingcart.domain.entity.Address;
 import com.haiss.shoppingcart.domain.entity.User;
 import com.haiss.shoppingcart.domain.mapping.AddressMapper;
@@ -45,7 +46,8 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<Address> getUserAddress(Long id) {
-        return addressRepo.findByUserId(id);
+    public List<UserAddressesResponse> getUserAddress(Long id) {
+        List<Address> addresses = addressRepo.findByUserId(id);
+        return mapper.mapToUserAddresses(addresses);
     }
 }

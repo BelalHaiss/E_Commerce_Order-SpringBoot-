@@ -3,6 +3,7 @@ package com.haiss.shoppingcart.controllers;
 
 import com.haiss.shoppingcart.domain.DTO.address.CreateAddressDTO;
 import com.haiss.shoppingcart.domain.DTO.address.UpdateAddressDTO;
+import com.haiss.shoppingcart.domain.DTO.address.UserAddressesResponse;
 import com.haiss.shoppingcart.domain.entity.Address;
 import com.haiss.shoppingcart.services.AddressService;
 import jakarta.validation.Valid;
@@ -35,7 +36,7 @@ public class AddressController {
     }
 
     @GetMapping("/{userId}")
-    List<Address> getUserAddress(@PathVariable("userId") Long userId) {
+    List<UserAddressesResponse> getUserAddress(@PathVariable("userId") Long userId) {
         return addressService.getUserAddress(userId);
     }
 
