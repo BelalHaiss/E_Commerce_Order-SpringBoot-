@@ -1,6 +1,8 @@
 package com.haiss.shoppingcart.domain.DTO.Product;
 
 import com.haiss.shoppingcart.domain.Interfaces.IProduct;
+import com.haiss.shoppingcart.domain.enums.EnumValidator;
+import com.haiss.shoppingcart.domain.enums.ProductStatus;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
@@ -28,4 +30,8 @@ public class UpdateProductDTO implements IProduct {
     @Min(0)
     @Nullable
     private Integer qty;
+
+
+    @EnumValidator(enumClass = ProductStatus.class)
+    private String status;
 }

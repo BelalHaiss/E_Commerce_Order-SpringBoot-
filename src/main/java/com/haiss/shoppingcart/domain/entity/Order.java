@@ -24,29 +24,28 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @Column(name = "total_price",precision = 10,scale = 2)
+    @Column(name = "total_price", precision = 10, scale = 2)
     private BigDecimal totalPrice;
 
     @Column(name = "created_at")
     @CreationTimestamp
     private Instant createdAt;
 
-    @Column(name="updated_at")
+    @Column(name = "updated_at")
     @UpdateTimestamp
-    private  Instant updatedAt;
+    private Instant updatedAt;
 
     @ManyToOne()
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts;
 
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
 
 
 }

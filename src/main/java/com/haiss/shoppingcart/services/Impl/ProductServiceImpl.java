@@ -4,6 +4,7 @@ import com.haiss.shoppingcart.domain.DTO.PaginationResponse;
 import com.haiss.shoppingcart.domain.DTO.Product.CreateProductDTO;
 import com.haiss.shoppingcart.domain.DTO.Product.UpdateProductDTO;
 import com.haiss.shoppingcart.domain.entity.Product;
+import com.haiss.shoppingcart.domain.enums.ProductStatus;
 import com.haiss.shoppingcart.domain.mapping.ProductMapper;
 import com.haiss.shoppingcart.exceptions.NotFoundException;
 import com.haiss.shoppingcart.repository.ProductRepository;
@@ -38,9 +39,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PaginationResponse<Product> findProductsWithPagination(int pageNo, int pageSize) {
-       Pageable pagination = PageRequest.of(pageNo,pageSize);
+        Pageable pagination = PageRequest.of(pageNo, pageSize);
 
-        Page<Product> productPage = productRepo.findAll(pagination);
+        Page<Product> productPage = productRepo.findAllByStatus(ProductStatus.AVAILABLE, pagination);
         PaginationResponse<Product> response = new PaginationResponse<>();
         response.setContent(productPage.toList());
         response.setTotalPages(productPage.getTotalPages());
@@ -49,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
         response.setTotalPages(productPage.getTotalPages());
         response.setPageNo(pageNo);
         response.setPageSize(pageSize);
-        return  response;
+        return response;
     }
 
     @Override
@@ -61,6 +62,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void removeById(Long id) {
-        productRepo.deleteById(id);
+        Product productEntity = productRepo.findById(id).orElseThrow(() -> new NotFoundException("no product found"));
+        productEntity.setStatus(ProductStatus.DELETED);
+        productRepo.save(productEntity);
     }
 }

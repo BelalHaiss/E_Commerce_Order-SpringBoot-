@@ -1,13 +1,14 @@
 package com.haiss.shoppingcart.domain.DTO.Product;
 
 import com.haiss.shoppingcart.domain.Interfaces.IProduct;
+import com.haiss.shoppingcart.domain.enums.EnumValidator;
+import com.haiss.shoppingcart.domain.enums.ProductStatus;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.math.BigDecimal;
 
@@ -26,6 +27,10 @@ public class CreateProductDTO implements IProduct {
     private BigDecimal price;
 
     @Min(0)
-    private Integer qty=0;
+    private Integer qty = 0;
+
+    @NotNull
+    @EnumValidator(enumClass = ProductStatus.class)
+    private String status;
 
 }

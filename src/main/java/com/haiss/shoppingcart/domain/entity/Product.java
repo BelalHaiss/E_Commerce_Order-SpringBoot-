@@ -1,6 +1,8 @@
 package com.haiss.shoppingcart.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.haiss.shoppingcart.domain.enums.ProductStatus;
+import com.haiss.shoppingcart.domain.listeners.ProductListener;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,9 +13,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+
+@EntityListeners(ProductListener.class)
 @Entity
 @Table(name = "product")
-@ToString
 public class Product {
 
     @Id
@@ -32,9 +36,18 @@ public class Product {
     private BigDecimal price;
 
     @Column(name = "qty", nullable = false)
-    private Integer qty ;
+    private Integer qty;
+
+
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts;
+
+
 }
+
+
+

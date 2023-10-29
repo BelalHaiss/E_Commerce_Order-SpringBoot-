@@ -33,8 +33,8 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorObject> handleException(Exception ex) {
+        System.out.println("Unhandeld Exception" +ex );
         ErrorObject errorBody = new ErrorObject("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
-
         return new ResponseEntity<>(errorBody, errorBody.status());
     }
 }

@@ -1,5 +1,7 @@
 package com.haiss.shoppingcart.domain.Interfaces;
 
+import com.haiss.shoppingcart.domain.enums.ProductStatus;
+
 import java.math.BigDecimal;
 
 public interface IProduct {
@@ -12,4 +14,6 @@ public interface IProduct {
     String getImage();
 
     String getDescription();
+
+    String getStatus();
 }

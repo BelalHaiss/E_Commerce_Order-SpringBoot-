@@ -25,11 +25,13 @@ public class UserServiceImpl implements UserService {
         if (isExist) throw new DuplicateException("user exists with same name");
         User newUser = new User();
         newUser.setName(user.getName());
+
         return userRepo.save(newUser);
     }
 
     @Override
     public User getUserById(Long id) {
+
         return userRepo.findById(id).orElseThrow(() -> new NotFoundException("user not found"));
     }
 }
