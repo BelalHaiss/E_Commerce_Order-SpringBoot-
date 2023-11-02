@@ -15,7 +15,6 @@ public interface ProductService {
     void createProduct(CreateProductDTO product);
 
     // findById
-    Product findProductById(Long id) throws NotFoundException;
     ProductResponse getProductById(Long id) throws NotFoundException;
 
 
@@ -31,6 +30,6 @@ public interface ProductService {
 
     Product validateOrderProduct(CreateOrderProductDTO productDTO) throws DataIntegrityViolationException, NotFoundException;
 
-    void changeProductQty(long productId, int qty);
+    void changeProductQty(long productId, int qty,boolean Add);
 
 }

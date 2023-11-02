@@ -40,6 +40,7 @@ public class Product {
 
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status",nullable = false)
     private ProductStatus status;
 
     @JsonIgnore

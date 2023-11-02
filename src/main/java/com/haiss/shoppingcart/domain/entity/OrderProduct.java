@@ -31,13 +31,16 @@ public class OrderProduct {
 
 
     @ManyToOne()
-    @JoinColumn(name = "order_id", insertable = false, updatable = false)
+    @JoinColumn(name = "order_id",nullable = false)
     @JsonIgnore
     private Order order;
 
     @ManyToOne()
-    @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    @JoinColumn(name = "product_id",nullable = false)
     private Product product;
+
+
+
 
 }
 

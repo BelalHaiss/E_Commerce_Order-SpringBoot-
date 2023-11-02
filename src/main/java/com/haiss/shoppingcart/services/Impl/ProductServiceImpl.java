@@ -41,25 +41,15 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.mapToProductResponse(product);
     }
 
-    @Override
-    public Product findProductById(Long id) {
+    private Product findProductById(Long id) {
         return productRepo.findById(id).orElseThrow(() -> new NotFoundException("no product found"));
     }
 
     @Override
     public PaginationResponse<ProductResponse> findProductsWithPagination(int pageNo, int pageSize) {
         Pageable pagination = PageRequest.of(pageNo, pageSize);
-
         Page<Product> productPage = productRepo.findAllByStatus(ProductStatus.AVAILABLE, pagination);
-        PaginationResponse<ProductResponse> response = new PaginationResponse<>();
-        response.setContent(productMapper.mapToProductResponse(productPage.toList()));
-        response.setTotalPages(productPage.getTotalPages());
-        response.setLast(productPage.isLast());
-        response.setTotalElments(productPage.getTotalElements());
-        response.setTotalPages(productPage.getTotalPages());
-        response.setPageNo(pageNo);
-        response.setPageSize(pageSize);
-        return response;
+        return productMapper.mapToProductPagination(productPage,pageNo,pageSize);
     }
 
     @Override
@@ -79,16 +69,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product validateOrderProduct(CreateOrderProductDTO orderProductDTO) {
         Product product = findProductById(orderProductDTO.getProductId());
-//        validate status & qty
+
+        //        validate status & qty
         if (product.getQty() < orderProductDTO.getQty() || product.getStatus() != ProductStatus.AVAILABLE)
-            throw new DataIntegrityViolationException("validation failed");
+            throw new DataIntegrityViolationException("product validation failed");
+
         return product;
     }
 
     @Override
-    public void changeProductQty(long productId, int qty) {
+    public void changeProductQty(long productId, int qty, boolean add) {
         Product product = findProductById(productId);
-        product.setQty(product.getQty() - qty);
+        int newQty = product.getQty() + (add ? qty : -qty);
+        product.setQty(newQty);
         productRepo.save(product);
 
     }

@@ -3,6 +3,7 @@ package com.haiss.shoppingcart.exceptions;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,17 +12,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ApiExceptionHandler {
 
 
-    @ExceptionHandler(value = {DuplicateException.class})
+    @ExceptionHandler(DuplicateException.class)
     public ResponseEntity<ErrorObject> handleDuplicate(DuplicateException ex) {
         return new ResponseEntity<ErrorObject>(ex.getErrorBody(), ex.getStatus());
     }
 
-    @ExceptionHandler(value = {NotFoundException.class})
+    @ExceptionHandler( NotFoundException.class)
     public ResponseEntity<ErrorObject> handleNotFoundError(NotFoundException ex) {
         return new ResponseEntity<ErrorObject>(ex.getErrorBody(), ex.getStatus());
     }
 
-    @ExceptionHandler(value = {MethodArgumentNotValidException.class, DataIntegrityViolationException.class})
+    @ExceptionHandler( {MethodArgumentNotValidException.class, DataIntegrityViolationException.class, HttpMessageNotReadableException.class})
 
     public ResponseEntity<ErrorObject> handleValidatioNError(Exception ex) {
         System.out.println("Validation Failed" + ex);
@@ -31,9 +32,10 @@ public class ApiExceptionHandler {
 
     }
 
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorObject> handleException(Exception ex) {
-        System.out.println("Unhandeld Exception" +ex );
+        System.out.println("Unhandeld Exception" + ex);
         ErrorObject errorBody = new ErrorObject("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(errorBody, errorBody.status());
     }

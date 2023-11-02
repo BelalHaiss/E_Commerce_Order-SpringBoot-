@@ -37,8 +37,8 @@ public class ProductController {
     @GetMapping
     public PaginationResponse<ProductResponse> getProducts(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(value = "pageSiz", defaultValue = "10", required = false) int pageSiz) {
-        return productService.findProductsWithPagination(pageNo, pageSiz);
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        return productService.findProductsWithPagination(pageNo, pageSize);
     }
 
     @GetMapping("/{id}")

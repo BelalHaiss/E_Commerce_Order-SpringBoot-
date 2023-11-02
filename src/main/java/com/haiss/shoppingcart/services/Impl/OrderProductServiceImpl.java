@@ -5,7 +5,10 @@ import com.haiss.shoppingcart.domain.entity.OrderProduct;
 import com.haiss.shoppingcart.domain.entity.Product;
 import com.haiss.shoppingcart.services.OrderProductService;
 import com.haiss.shoppingcart.services.ProductService;
+import org.springframework.stereotype.Service;
 
+
+@Service
 public class OrderProductServiceImpl implements OrderProductService {
     private ProductService productService;
 
@@ -18,7 +21,7 @@ public class OrderProductServiceImpl implements OrderProductService {
         Product productEntity = productService.validateOrderProduct(orderProductDTO);
         OrderProduct orderProduct = new OrderProduct();
         orderProduct.setProduct(productEntity);
-        orderProduct.setQty(orderProduct.getQty());
+        orderProduct.setQty(orderProductDTO.getQty());
         orderProduct.setUnitPrice(productEntity.getPrice());
         return orderProduct;
     }

@@ -5,6 +5,5 @@ import com.haiss.shoppingcart.domain.entity.OrderProduct;
 
 public interface OrderProductService {
 
-
     OrderProduct handleOrderPrduct(CreateOrderProductDTO orderProductDTO);
 }
