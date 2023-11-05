@@ -5,6 +5,7 @@ import com.haiss.shoppingcart.domain.DTO.PaginationResponse;
 import com.haiss.shoppingcart.domain.DTO.order.CreateOrderDTO;
 import com.haiss.shoppingcart.domain.DTO.order.OrderResponseUserIncluded;
 import com.haiss.shoppingcart.domain.DTO.order.UserOrderResponse;
+import com.haiss.shoppingcart.security.validation.IsSameUser;
 import com.haiss.shoppingcart.services.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
 
-    private OrderService orderService;
+    private final OrderService orderService;
 
     OrderController(OrderService orderService) {
         this.orderService = orderService;
@@ -29,17 +30,17 @@ public class OrderController {
     }
 
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/users/{userId}")
+    @IsSameUser
     public PaginationResponse<UserOrderResponse> getUserOrders(
-            @PathVariable("id") Long id,
+            @PathVariable("userId") Long userId,
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
     ) {
-        return orderService.getUserOrder(id, pageNo, pageSize);
+        return orderService.getUserOrder(userId, pageNo, pageSize);
     }
 
     @GetMapping("/{id}")
-
     public OrderResponseUserIncluded getOrderById(@PathVariable("id") Long id) {
         return orderService.getOrderById(id);
     }

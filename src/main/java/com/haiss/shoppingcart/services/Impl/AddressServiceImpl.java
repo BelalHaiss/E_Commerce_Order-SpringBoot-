@@ -8,6 +8,7 @@ import com.haiss.shoppingcart.domain.entity.User;
 import com.haiss.shoppingcart.domain.mapping.AddressMapper;
 import com.haiss.shoppingcart.exceptions.NotFoundException;
 import com.haiss.shoppingcart.repository.AddressRepository;
+import com.haiss.shoppingcart.security.validation.UserValidator;
 import com.haiss.shoppingcart.services.AddressService;
 import com.haiss.shoppingcart.services.UserService;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,7 @@ public class AddressServiceImpl implements AddressService {
     public void editById(Long addressId, UpdateAddressDTO addressDTO) {
         Address addressEntity = addressRepo.findById(addressId).orElseThrow(() ->
                 new NotFoundException("Address is wrong"));
+        UserValidator.isSame(addressEntity.getUser().getId());
         mapper.mapPatchAddress(addressDTO, addressEntity);
         addressRepo.save(addressEntity);
     }

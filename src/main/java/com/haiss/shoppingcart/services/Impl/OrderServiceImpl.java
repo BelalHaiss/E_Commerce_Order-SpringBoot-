@@ -1,15 +1,19 @@
 package com.haiss.shoppingcart.services.Impl;
 
 import com.haiss.shoppingcart.domain.DTO.PaginationResponse;
+import com.haiss.shoppingcart.domain.DTO.UserResponse;
 import com.haiss.shoppingcart.domain.DTO.order.CreateOrderDTO;
 import com.haiss.shoppingcart.domain.DTO.order.OrderResponseUserIncluded;
 import com.haiss.shoppingcart.domain.DTO.order.UserOrderResponse;
 import com.haiss.shoppingcart.domain.entity.Order;
 import com.haiss.shoppingcart.domain.entity.OrderProduct;
 import com.haiss.shoppingcart.domain.mapping.OrderMapper;
+import com.haiss.shoppingcart.domain.mapping.UserMapper;
 import com.haiss.shoppingcart.exceptions.NotFoundException;
 import com.haiss.shoppingcart.repository.OrderRepository;
+import com.haiss.shoppingcart.security.validation.UserValidator;
 import com.haiss.shoppingcart.services.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderProductService orderProductService;
@@ -29,15 +34,8 @@ public class OrderServiceImpl implements OrderService {
     private final ProductService productService;
     private final UserService userService;
     private final OrderMapper orderMapper;
+    private final UserMapper userMapper;
 
-    OrderServiceImpl(OrderMapper orderMapper, UserService userService, OrderRepository orderRepository, OrderProductService orderProductService, ProductService productService, AddressService addressService) {
-        this.orderRepository = orderRepository;
-        this.orderProductService = orderProductService;
-        this.addressService = addressService;
-        this.productService = productService;
-        this.userService = userService;
-        this.orderMapper = orderMapper;
-    }
 
     @Override
     @Transactional
@@ -68,7 +66,8 @@ public class OrderServiceImpl implements OrderService {
         UserOrderResponse order = orderMapper.mapToOrderResponse(orderEnity);
         OrderResponseUserIncluded orderResponse = new OrderResponseUserIncluded();
         orderResponse.setOrderResponse(order);
-        orderResponse.setUser(orderEnity.getUser());
+        UserResponse userResponse = userMapper.mapToUserResponseWithOutRole(orderEnity.getUser());
+        orderResponse.setUser(userResponse);
         return orderResponse;
     }
 
@@ -86,10 +85,11 @@ public class OrderServiceImpl implements OrderService {
     public void removeOrder(Long id) throws NotFoundException {
 
         Order orderEntity = findOrderById(id);
+        UserValidator.isSame(orderEntity.getUser().getId());
+        orderRepository.delete(orderEntity);
         orderEntity.getOrderProducts().forEach((orderProduct -> {
             productService.changeProductQty(orderProduct.getProduct().getId(), orderProduct.getQty(), true);
         }));
-        orderRepository.delete(orderEntity);
     }
 
 

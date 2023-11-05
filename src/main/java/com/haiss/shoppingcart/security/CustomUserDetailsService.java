@@ -7,7 +7,6 @@ import com.haiss.shoppingcart.domain.mapping.UserMapper;
 import com.haiss.shoppingcart.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -41,7 +40,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private Collection<GrantedAuthority> mapRoles(List<Role> roles) {
-        return roles.stream().map((role) -> new SimpleGrantedAuthority(role.getName().toString())).collect(Collectors.toList());
+        return roles.stream().map((role) -> role.getName().getRole()).collect(Collectors.toList());
     }
 
 }

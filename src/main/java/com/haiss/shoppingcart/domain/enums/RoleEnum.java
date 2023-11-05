@@ -1,5 +1,8 @@
 package com.haiss.shoppingcart.domain.enums;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 public enum RoleEnum {
     ADMIN("ADMIN"), USER("USER");
 
@@ -19,8 +22,10 @@ public enum RoleEnum {
     }
 
     public String getValue() {
-
         return value;
+    }
 
+    public GrantedAuthority getRole() {
+        return new SimpleGrantedAuthority("ROLE_" + getValue());
     }
 }

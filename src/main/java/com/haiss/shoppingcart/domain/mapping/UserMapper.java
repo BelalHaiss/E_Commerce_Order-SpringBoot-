@@ -1,6 +1,7 @@
 package com.haiss.shoppingcart.domain.mapping;
 
 import com.haiss.shoppingcart.domain.DTO.UserResponse;
+import com.haiss.shoppingcart.domain.DTO.UserWithRoleResponse;
 import com.haiss.shoppingcart.domain.DTO.auth.ExtendedUserDetails;
 import com.haiss.shoppingcart.domain.DTO.auth.RegisterDTO;
 import com.haiss.shoppingcart.domain.entity.Role;
@@ -20,12 +21,13 @@ public interface UserMapper {
 
     User mapToUserEntity(RegisterDTO registerDTO);
 
+    UserResponse mapToUserResponseWithOutRole(User userEntity);
 
     @Mapping(target = "authorities", ignore = true)
     ExtendedUserDetails mapToFullUserDetails(User userEnity);
 
     @Mapping(target = "roles", source = "roles", qualifiedByName = "mapRoles")
-    UserResponse mapToDTO(ExtendedUserDetails userDetails);
+    UserWithRoleResponse mapToDTO(ExtendedUserDetails userDetails);
 
     @Named("mapRoles")
     default List<RoleEnum> mapRoles(List<Role> roles) {

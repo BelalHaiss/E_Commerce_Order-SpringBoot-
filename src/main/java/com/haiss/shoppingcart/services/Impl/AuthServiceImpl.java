@@ -1,6 +1,6 @@
 package com.haiss.shoppingcart.services.Impl;
 
-import com.haiss.shoppingcart.domain.DTO.UserResponse;
+import com.haiss.shoppingcart.domain.DTO.UserWithRoleResponse;
 import com.haiss.shoppingcart.domain.DTO.auth.AuthResponse;
 import com.haiss.shoppingcart.domain.DTO.auth.ExtendedUserDetails;
 import com.haiss.shoppingcart.domain.DTO.auth.LoginDTO;
@@ -40,8 +40,11 @@ public class AuthServiceImpl implements AuthService {
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
             ExtendedUserDetails fullUserDetails = (ExtendedUserDetails) authentication.getPrincipal();
+            System.out.println("fullUserDetails" +fullUserDetails);
+
             AuthResponse response = new AuthResponse();
-            UserResponse userDTO = userMapper.mapToDTO(fullUserDetails);
+            UserWithRoleResponse userDTO = userMapper.mapToDTO(fullUserDetails);
+            System.out.println("userDTO" + userDTO);
             response.setUser(userDTO);
             String token = jwtTokenUtil.genrateToken(authentication);
             response.setToken(token);
