@@ -39,6 +39,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
+
     public OrderResponseUserIncluded getOrderById(@PathVariable("id") Long id) {
         return orderService.getOrderById(id);
     }

@@ -13,3 +13,8 @@ server:
   port: 5000
   servlet:
     context-path: "/api"
+
+app:
+  JWT:
+    SECRET: "ItSECRETANDITSHOULDBETOOOLOOOOONGANDSECREEET"
+    EXPIRY: 86400000
